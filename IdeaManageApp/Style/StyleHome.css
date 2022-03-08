@@ -1,0 +1,25 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: sans-serif;
+    background: url(../Image/background.jpg);
+    background-size: cover;
+}
+
+h1 {
+    text-align: center;    
+}
+
+.jumbotron {
+    background: rgba(1,1,1,0.3);    
+}
+
+p {
+    text-align: justify;
+}
+
+.img-rounded {
+    margin-left: 130px;
+    
+}

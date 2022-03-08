@@ -1,0 +1,52 @@
+﻿@model IdeaManageApp.Models.User
+
+@{
+    ViewBag.Title = "LOGIN";
+    
+}
+
+<h1>LOGIN FORM</h1>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="text-center; mb-5" >
+    <h4>Please input your email and password</h4>
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form style="max-width:500px; margin:auto;">
+        <div>
+            <img class="mt-4" src="~/Image/User.png" height="50" />
+            <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+        </div>
+        <div class="mb-5;">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10; text-center;">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="mb-5">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-sm-2 col-form-lable" })
+            <div class="col-sm-10; text-center;">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-offset-2; text-center;">
+            <input type="submit" value="Login" class="btn btn-lg btn-primary" />
+        </div>
+    </form>
+        
+</div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Style/Style_login.css")
+}

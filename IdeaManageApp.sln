@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdeaManageApp", "IdeaManageApp\IdeaManageApp.csproj", "{A381906B-9EFD-4C1D-BF93-6D2765826B2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A381906B-9EFD-4C1D-BF93-6D2765826B2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A381906B-9EFD-4C1D-BF93-6D2765826B2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A381906B-9EFD-4C1D-BF93-6D2765826B2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A381906B-9EFD-4C1D-BF93-6D2765826B2C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {996D4819-70A7-4837-B550-F7A77ABDF359}
+	EndGlobalSection
+EndGlobal

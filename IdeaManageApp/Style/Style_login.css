@@ -1,0 +1,21 @@
+﻿body {
+    text-align: center;
+}
+
+.form {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.row mb-3 {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-control {
+    position: center;
+}
