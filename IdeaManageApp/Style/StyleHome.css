@@ -8,11 +8,12 @@
 }
 
 h1 {
-    text-align: center;    
+    text-align: center;
+    color: #ff6a00;
 }
 
 .jumbotron {
-    background: rgba(1,1,1,0.3);    
+    background: rgba(1,1,1,0.3);
 }
 
 p {
@@ -21,5 +22,8 @@ p {
 
 .img-rounded {
     margin-left: 130px;
-    
+}
+
+.lead {
+    color: aliceblue
 }

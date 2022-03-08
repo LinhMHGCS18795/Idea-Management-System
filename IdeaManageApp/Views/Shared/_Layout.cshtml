@@ -26,19 +26,8 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
 
-                <ul class="nav navbar-right" style="color:aliceblue">
-                    @if (Session["User_Id"] != null)
-                    {
-                        <h4 style="color:aliceblue">Hello @Session["Email"]</h4>
+                @Html.Partial("_LoginPartial")
 
-                        @Html.ActionLink("Logout", "Logout", "Login")
-                    }
-
-                    else
-                    {
-                        @Html.Partial("_LoginPartial")
-                    }
-                </ul>                
             </div>
         </div>
     </div>

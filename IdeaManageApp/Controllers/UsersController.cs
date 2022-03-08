@@ -17,7 +17,7 @@ namespace IdeaManageApp.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.Department);
+            var users = db.Users.Include(u => u.Department).Include(u => u.Role);
             return View(users.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace IdeaManageApp.Controllers
         public ActionResult Create()
         {
             ViewBag.Department_Id = new SelectList(db.Departments, "Department_Id", "Department_Name");
+            ViewBag.Role_Id = new SelectList(db.Roles, "Role_Id", "Role_Name");
             return View();
         }
 
@@ -48,7 +49,7 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "User_Id,User_Name,Date_of_birth,Phone_Number,Email,Password,Staff_Id,Department_Id")] User user)
+        public ActionResult Create([Bind(Include = "User_Id,User_Name,Date_of_birth,Phone_Number,Email,Password,Staff_Id,Department_Id,Role_Id")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +59,7 @@ namespace IdeaManageApp.Controllers
             }
 
             ViewBag.Department_Id = new SelectList(db.Departments, "Department_Id", "Department_Name", user.Department_Id);
+            ViewBag.Role_Id = new SelectList(db.Roles, "Role_Id", "Role_Name", user.Role_Id);
             return View(user);
         }
 
@@ -74,6 +76,7 @@ namespace IdeaManageApp.Controllers
                 return HttpNotFound();
             }
             ViewBag.Department_Id = new SelectList(db.Departments, "Department_Id", "Department_Name", user.Department_Id);
+            ViewBag.Role_Id = new SelectList(db.Roles, "Role_Id", "Role_Name", user.Role_Id);
             return View(user);
         }
 
@@ -82,7 +85,7 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "User_Id,User_Name,Date_of_birth,Phone_Number,Email,Password,Staff_Id,Department_Id")] User user)
+        public ActionResult Edit([Bind(Include = "User_Id,User_Name,Date_of_birth,Phone_Number,Email,Password,Staff_Id,Department_Id,Role_Id")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +94,7 @@ namespace IdeaManageApp.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Department_Id = new SelectList(db.Departments, "Department_Id", "Department_Name", user.Department_Id);
+            ViewBag.Role_Id = new SelectList(db.Roles, "Role_Id", "Role_Name", user.Role_Id);
             return View(user);
         }
 

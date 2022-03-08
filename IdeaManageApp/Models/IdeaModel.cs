@@ -8,7 +8,7 @@ namespace IdeaManageApp.Models
     public partial class IdeaModel : DbContext
     {
         public IdeaModel()
-            : base("name=IdeaModel")
+            : base("name=IdeasModel")
         {
         }
 
@@ -26,11 +26,6 @@ namespace IdeaManageApp.Models
                 .Property(e => e.Role_Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Role>()
-                .HasMany(e => e.Users)
-                .WithMany(e => e.Roles)
-                .Map(m => m.ToTable("User_Role").MapLeftKey("Role_Id").MapRightKey("User_Id"));
-
             modelBuilder.Entity<User>()
                 .Property(e => e.User_Name)
                 .IsUnicode(false);
@@ -45,10 +40,6 @@ namespace IdeaManageApp.Models
 
             modelBuilder.Entity<User>()
                 .Property(e => e.Password)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.Staff_Id)
                 .IsUnicode(false);
         }
     }

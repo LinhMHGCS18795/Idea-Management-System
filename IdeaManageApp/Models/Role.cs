@@ -6,7 +6,7 @@ namespace IdeaManageApp.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Role")]
+    [Table("hr.Role")]
     public partial class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -16,9 +16,10 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name = "Role ID")]
         public int Role_Id { get; set; }
 
+        [Display(Name = "Role Name")]
         [StringLength(50)]
         public string Role_Name { get; set; }
 

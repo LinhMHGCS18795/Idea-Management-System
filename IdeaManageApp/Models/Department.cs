@@ -6,7 +6,7 @@ namespace IdeaManageApp.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Department")]
+    [Table("hr.Department")]
     public partial class Department
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -16,9 +16,10 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name ="Department ID")]
         public int Department_Id { get; set; }
 
+        [Display(Name = "Department Name")]
         [StringLength(50)]
         public string Department_Name { get; set; }
 
