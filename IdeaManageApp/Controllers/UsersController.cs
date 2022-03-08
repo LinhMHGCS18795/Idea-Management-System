@@ -120,6 +120,41 @@ namespace IdeaManageApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult SearchUser(string staffId, string departmentName, string roleName)
+        {
+            var searchList = new List<User>();
+            if (staffId == "" && staffId == null &&
+                departmentName == null && departmentName == "" &&
+                roleName == null && roleName == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            } else
+            {
+                
+                if (staffId != null && staffId != "")
+                {
+                    var users = db.Users;
+                    searchList = users.Where(s => s.Staff_Id == staffId).ToList();
+                }
+                else if (departmentName != null && departmentName != "")
+                {
+                    var users = db.Users;
+                    searchList = users.Where(s => s.Department.Department_Name == departmentName).ToList();
+                }
+                else if (roleName != null && roleName != "")
+                {
+                    var users = db.Users;
+                    //searchList = users.Where(s => s.Roles.Role_Name == roleName).ToList();
+                }
+            }
+
+            if (searchList == null || searchList.Count == 0)
+            {
+                return HttpNotFound();
+            }
+            return View(searchList);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
