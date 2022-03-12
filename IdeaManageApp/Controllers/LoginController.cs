@@ -10,7 +10,6 @@ namespace IdeaManageApp.Controllers
     public class LoginController : Controller
     {
         IdeaModel db = new IdeaModel();
-
         // GET: Login
         public ActionResult Index()
         {

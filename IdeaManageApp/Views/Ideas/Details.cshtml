@@ -1,0 +1,90 @@
+﻿@model IdeaManageApp.Models.Idea
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Idea</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.Category_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.Category_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Submission.Submission_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submission.Submission_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.User_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.User_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Create_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Create_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_File_path)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_File_path)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_IsDisable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_IsDisable)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Idea_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

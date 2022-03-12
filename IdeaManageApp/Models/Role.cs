@@ -16,10 +16,8 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
-        [Display(Name = "Role ID")]
         public int Role_Id { get; set; }
 
-        [Display(Name = "Role Name")]
         [StringLength(50)]
         public string Role_Name { get; set; }
 

@@ -38,6 +38,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Role.Role_Id)
         </th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -64,10 +65,10 @@
             @Html.DisplayFor(modelItem => item.Staff_Id)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Department.Department_Name)
+            @Html.DisplayFor(modelItem => item.Department.Department_Id)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Role.Role_Name)
+            @Html.DisplayFor(modelItem => item.Role.Role_Id)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.User_Id }) |

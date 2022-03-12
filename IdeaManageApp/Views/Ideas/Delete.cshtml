@@ -1,0 +1,96 @@
+﻿@model IdeaManageApp.Models.Idea
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Idea</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.Category_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.Category_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Submission.Submission_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submission.Submission_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.User_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.User_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Create_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Create_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_File_path)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_File_path)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_IsDisable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_IsDisable)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

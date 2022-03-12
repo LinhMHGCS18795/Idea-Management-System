@@ -9,40 +9,45 @@ namespace IdeaManageApp.Models
     [Table("hr.User")]
     public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            Ideas = new HashSet<Idea>();
+            Notifications = new HashSet<Notification>();
+        }
+
         [Key]
-        [Display(Name = "User ID")]
         public int User_Id { get; set; }
 
-        [Display(Name = "User Name")]
         [StringLength(50)]
         public string User_Name { get; set; }
 
-        [Display(Name = "Date Of Birth")]
         [Column(TypeName = "date")]
         public DateTime? Date_of_birth { get; set; }
 
-        [Display(Name = "Phone number")]
         [StringLength(50)]
         public string Phone_Number { get; set; }
 
-        [Display(Name = "Email")]
         [StringLength(50)]
         public string Email { get; set; }
 
-        [Display(Name = "Password")]
         [StringLength(5)]
         public string Password { get; set; }
 
-        [Display(Name = "Staff ID")]
-        public int? Staff_Id { get; set; }
+        [StringLength(50)]
+        public string Staff_Id { get; set; }
 
-        [Display(Name = "Department ID")]
         public int? Department_Id { get; set; }
 
-        [Display(Name = "Role ID")]
         public int? Role_Id { get; set; }
 
         public virtual Department Department { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Idea> Ideas { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications { get; set; }
 
         public virtual Role Role { get; set; }
     }

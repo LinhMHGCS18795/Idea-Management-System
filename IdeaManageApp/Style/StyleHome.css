@@ -27,3 +27,14 @@ p {
 .lead {
     color: aliceblue
 }
+
+.sidebar {
+    position: fixed;
+    z-index: 0;
+    width: 20% !important;
+    background: #fff;
+    padding: 10px 30px !important;
+    box-shadow: 3px 0px 8px rgb(0 0 0 / 5%);
+    margin-top: 80px;
+    height: 100%;
+}

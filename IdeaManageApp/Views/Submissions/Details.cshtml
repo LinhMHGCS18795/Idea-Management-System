@@ -1,0 +1,50 @@
+﻿@model IdeaManageApp.Models.Submission
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Submission</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Submission_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submission_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Submission_Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submission_Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Submission_Closure_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submission_Closure_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Submission_Final_closure_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submission_Final_closure_date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Submission_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
