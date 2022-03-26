@@ -12,7 +12,7 @@ namespace IdeaManageApp.Controllers
 {
     public class UsersController : Controller
     {
-        private IdeaModel db = new IdeaModel();
+        private AppModel db = new AppModel();
 
         // GET: Users
         public ActionResult Index()

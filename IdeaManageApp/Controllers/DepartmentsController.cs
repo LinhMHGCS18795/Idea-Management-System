@@ -12,7 +12,7 @@ namespace IdeaManageApp.Controllers
 {
     public class DepartmentsController : Controller
     {
-        private IdeaModel db = new IdeaModel();
+        private AppModel db = new AppModel();
 
         // GET: Departments
         public ActionResult Index()

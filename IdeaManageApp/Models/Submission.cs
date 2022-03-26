@@ -12,7 +12,7 @@ namespace IdeaManageApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Submission()
         {
-            Ideas = new HashSet<Idea>();
+            Categories = new HashSet<Category>();
         }
 
         [Key]
@@ -31,6 +31,6 @@ namespace IdeaManageApp.Models
         public DateTime? Submission_Final_closure_date { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Idea> Ideas { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }

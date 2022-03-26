@@ -9,7 +9,7 @@ namespace IdeaManageApp.Controllers
 {
     public class LoginController : Controller
     {
-        IdeaModel db = new IdeaModel();
+        AppModel db = new AppModel();
         // GET: Login
         public ActionResult Index()
         {
@@ -22,7 +22,7 @@ namespace IdeaManageApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (IdeaModel db = new IdeaModel())
+                using (AppModel db = new AppModel())
                 {
                     var obj = db.Users.Where(a => a.Email.Equals(user.Email) && a.Password.Equals(user.Password)).FirstOrDefault();
 

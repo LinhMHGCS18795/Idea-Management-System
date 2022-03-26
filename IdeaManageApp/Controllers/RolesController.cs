@@ -12,7 +12,7 @@ namespace IdeaManageApp.Controllers
 {
     public class RolesController : Controller
     {
-        private IdeaModel db = new IdeaModel();
+        private AppModel db = new AppModel();
 
         // GET: Roles
         public ActionResult Index()

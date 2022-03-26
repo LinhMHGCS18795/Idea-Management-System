@@ -12,12 +12,13 @@ namespace IdeaManageApp.Controllers
 {
     public class CategoriesController : Controller
     {
-        private IdeaModel db = new IdeaModel();
+        private AppModel db = new AppModel();
 
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            var categories = db.Categories.Include(c => c.Submission);
+            return View(categories.ToList());
         }
 
         // GET: Categories/Details/5
@@ -38,6 +39,7 @@ namespace IdeaManageApp.Controllers
         // GET: Categories/Create
         public ActionResult Create()
         {
+            ViewBag.Submission_Id = new SelectList(db.Submissions, "Submission_Id", "Submission_Name");
             return View();
         }
 
@@ -46,7 +48,7 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Category_Id,Category_Name,Category_Description")] Category category)
+        public ActionResult Create([Bind(Include = "Category_Id,Category_Name,Category_Description,Submission_Id")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +57,7 @@ namespace IdeaManageApp.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Submission_Id = new SelectList(db.Submissions, "Submission_Id", "Submission_Name", category.Submission_Id);
             return View(category);
         }
 
@@ -70,6 +73,7 @@ namespace IdeaManageApp.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Submission_Id = new SelectList(db.Submissions, "Submission_Id", "Submission_Name", category.Submission_Id);
             return View(category);
         }
 
@@ -78,7 +82,7 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Category_Id,Category_Name,Category_Description")] Category category)
+        public ActionResult Edit([Bind(Include = "Category_Id,Category_Name,Category_Description,Submission_Id")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +90,7 @@ namespace IdeaManageApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Submission_Id = new SelectList(db.Submissions, "Submission_Id", "Submission_Name", category.Submission_Id);
             return View(category);
         }
 

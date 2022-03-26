@@ -20,6 +20,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Category_Description)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Submission.Submission_Id)
+        </th>
         <th></th>
     </tr>
 
@@ -33,6 +36,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Category_Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Submission.Submission_Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Category_Id }) |

@@ -13,7 +13,6 @@ namespace IdeaManageApp.Models
         public User()
         {
             Ideas = new HashSet<Idea>();
-            Notifications = new HashSet<Notification>();
         }
 
         [Key]
@@ -45,9 +44,6 @@ namespace IdeaManageApp.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Idea> Ideas { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> Notifications { get; set; }
 
         public virtual Role Role { get; set; }
     }

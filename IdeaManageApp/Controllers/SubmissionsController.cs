@@ -12,7 +12,7 @@ namespace IdeaManageApp.Controllers
 {
     public class SubmissionsController : Controller
     {
-        private IdeaModel db = new IdeaModel();
+        private AppModel db = new AppModel();
 
         // GET: Submissions
         public ActionResult Index()

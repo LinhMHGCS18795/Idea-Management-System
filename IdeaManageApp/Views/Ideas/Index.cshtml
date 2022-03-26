@@ -15,10 +15,10 @@
             @Html.DisplayNameFor(model => model.Idea_Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Idea_Title)
+            @Html.DisplayNameFor(model => model.Category.Category_Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Idea_Description)
+            @Html.DisplayNameFor(model => model.Idea_Title)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Idea_Content)
@@ -28,15 +28,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Idea_File_path)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_IsDisable)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Category_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Submission.Submission_Id)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.User.User_Id)
@@ -50,10 +41,10 @@
             @Html.DisplayFor(modelItem => item.Idea_Id)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Idea_Title)
-        </td>
+            @Html.DisplayFor(modelItem => item.Category.Category_Name)
+        </td>        
         <td>
-            @Html.DisplayFor(modelItem => item.Idea_Description)
+            @Html.DisplayFor(modelItem => item.Idea_Title)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Idea_Content)
@@ -63,15 +54,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Idea_File_path)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idea_IsDisable)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Category_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submission.Submission_Id)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.User.User_Id)
