@@ -1,0 +1,50 @@
+﻿@model IdeaManageApp.Models.Reaction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Reaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea.Idea_Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea.Idea_Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.User_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.User_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.is_like)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.is_like)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Create_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Create_Date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Reaction_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

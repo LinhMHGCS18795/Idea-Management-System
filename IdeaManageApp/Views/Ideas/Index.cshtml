@@ -18,6 +18,9 @@
             @Html.DisplayNameFor(model => model.Category.Category_Name)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.User.User_Name)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Idea_Title)
         </th>
         <th>
@@ -29,9 +32,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Idea_File_path)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.User_Id)
-        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.TermsAndCondition)
+        </th>*@
         <th></th>
     </tr>
 
@@ -42,7 +45,10 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Category.Category_Name)
-        </td>        
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.User_Name)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Idea_Title)
         </td>
@@ -55,9 +61,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Idea_File_path)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.User_Id)
-        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.TermsAndCondition)
+        </td>*@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Idea_Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Idea_Id }) |

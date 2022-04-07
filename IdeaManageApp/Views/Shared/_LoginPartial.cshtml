@@ -1,7 +1,7 @@
 ﻿<ul class="nav navbar-right" style="color:aliceblue">
     @if (Session["User_Id"] != null)
     {
-        <h4 style="color:aliceblue">Hello @Session["Email"]</h4>
+        <h4 style="color:aliceblue">Hello @Session["Role"]</h4>
 
         @Html.ActionLink("Logout", "Logout", "Login")
     }

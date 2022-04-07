@@ -6,7 +6,8 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm())
+
+@using (Html.BeginForm("Create", "Ideas", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -17,18 +18,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Category_Id, "Category_Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Category_Id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Category_Id, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Category_Id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Category_Id, "Please input a number for category: 1. Library; 2. Faculty", new { @class = "text-danger" })
             </div>
         </div>
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.Category.Submission.Submission_Closure_date, "Submission_Closure_Date", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Submission_Closure_Date", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Category.Submission.Submission_Id, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Idea_Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -41,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Idea_Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Idea_Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Idea_Content, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Idea_Content, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +50,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Idea_File_path, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="File" />
+                <input type="file" name="MyFile" />
             </div>
         </div>
 
@@ -65,24 +58,28 @@
             @Html.LabelFor(model => model.User_Id, "User_Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.User_Id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.User_Id, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.User_Id, "Please input your ID", new { @class = "text-danger" })
             </div>
         </div>
 
-        @*<div class="form-group" style="margin-left: 10px">
-            @Html.CheckBoxFor(x => x.TermsAndCondition)
-            @Html.LabelFor(x => x.TermsAndCondition)
-            @Html.ValidationMessageFor(x => x.TermsAndCondition)
-        </div>*@
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>        
+        <div class="form-group" style="margin-left: 100px">
+            @Html.CheckBox("TermsAndCondition", false)
+            I agree with <a href="">Terms and Condition</a>
+        </div> 
     </div>
-}
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+
+}    
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

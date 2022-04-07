@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 using IdeaManageApp.Models;
 
 namespace IdeaManageApp.Controllers
-{
+{    
     public class IdeasController : Controller
     {
         private EmailServiceController emailServiceController;
@@ -20,7 +21,29 @@ namespace IdeaManageApp.Controllers
         {
             var ideas = db.Ideas.Include(i => i.Category).Include(i => i.User);
             return View(ideas.ToList());
-        }       
+        }
+
+        //POST: UPLOAD FILE
+        [HttpPost]
+        public ActionResult Create(Idea idea)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(idea.MyFile.FileName);
+            string extension = Path.GetExtension(idea.MyFile.FileName);
+            fileName = fileName + extension;
+            idea.Idea_File_path = fileName;
+            fileName = Path.Combine(Server.MapPath("../Files/"), fileName);
+            idea.MyFile.SaveAs(fileName);
+
+            if (ModelState.IsValid)
+            {
+                db.Ideas.Add(idea);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(idea);
+        }
+
 
         // GET: Ideas/Details/5
         public ActionResult Details(int? id)
@@ -43,26 +66,8 @@ namespace IdeaManageApp.Controllers
             ViewBag.Category_Id = new SelectList(db.Categories, "Category_Id", "Category_Name");
             ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name");
             return View();
-        }
-
-        // POST: Ideas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Idea_Id,Category_Id,Idea_Title,Idea_Content,Idea_Create_date,Idea_File_path,User_Id")] Idea idea)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Ideas.Add(idea);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Category_Id = new SelectList(db.Categories, "Category_Id", "Category_Name", idea.Category_Id);
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", idea.User_Id);
-            return View(idea);
-        }
+        }     
+        
 
         // GET: Ideas/Edit/5
         public ActionResult Edit(int? id)
@@ -86,7 +91,7 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Idea_Id,Category_Id,Idea_Title,Idea_Content,Idea_Create_date,Idea_File_path,User_Id")] Idea idea)
+        public ActionResult Edit([Bind(Include = "Idea_Id,Category_Id,Idea_Title,Idea_Content,Idea_Create_date,Idea_File_path,User_Id,TermsAndCondition")] Idea idea)
         {
             if (ModelState.IsValid)
             {

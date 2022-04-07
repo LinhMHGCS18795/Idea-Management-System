@@ -8,16 +8,19 @@ namespace IdeaManageApp.Models
     public partial class AppModel : DbContext
     {
         public AppModel()
-            : base("name=AppModel1")
+            : base("name=AppModel3")
         {
         }
 
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Idea> Ideas { get; set; }
+        public virtual DbSet<Reaction> Reactions { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Submission> Submissions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<View> Views { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -29,10 +32,9 @@ namespace IdeaManageApp.Models
                 .Property(e => e.Category_Description)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.Ideas)
-                .WithRequired(e => e.Category)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Comment>()
+                .Property(e => e.Content)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Department>()
                 .Property(e => e.Department_Name)
@@ -81,11 +83,6 @@ namespace IdeaManageApp.Models
             modelBuilder.Entity<User>()
                 .Property(e => e.Staff_Id)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.Ideas)
-                .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
         }
     }
 }

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<IdeaManageApp.Models.Comment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Idea.Idea_Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.User_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created_date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Idea.Idea_Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.User_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created_date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Comment_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Comment_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Comment_Id })
+        </td>
+    </tr>
+}
+
+</table>
