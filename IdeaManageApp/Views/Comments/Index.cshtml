@@ -7,16 +7,17 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Comment", "Create")
+    
+
+
+
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Idea.Idea_Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.User_Name)
-        </th>
+        </th>        
         <th>
             @Html.DisplayNameFor(model => model.Content)
         </th>
@@ -30,10 +31,7 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Idea.Idea_Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.User_Name)
-        </td>
+        </td>        
         <td>
             @Html.DisplayFor(modelItem => item.Content)
         </td>

@@ -13,11 +13,14 @@ namespace IdeaManageApp.Controllers
     public class CommentsController : Controller
     {
         private AppModel db = new AppModel();
+        IdeasController ideasController = new IdeasController();
+        int idea_Id;
 
         // GET: Comments
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var comments = db.Comments.Include(c => c.Idea).Include(c => c.User);
+            var comments = db.Comments.Include(c => c.Idea).Where(i =>i.Idea_Id == id);
+            
             return View(comments.ToList());
         }
 
@@ -39,8 +42,9 @@ namespace IdeaManageApp.Controllers
         // GET: Comments/Create
         public ActionResult Create()
         {
+            System.Diagnostics.Debug.WriteLine(">>>>>LO"+db.Ideas.ToList().Count());
             ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title");
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name");
+            System.Diagnostics.Debug.WriteLine(">>>>>LOAD");
             return View();
         }
 
@@ -49,17 +53,21 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Comment_Id,Content,Created_date,User_Id,Idea_Id")] Comment comment)
+        public ActionResult Create([Bind(Include = "Comment_Id,Content,Created_date,Idea_Id")] Comment comment)
         {
+            System.Diagnostics.Debug.WriteLine(">>>>>SAVE");
             if (ModelState.IsValid)
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            //if (!ideasController.CheckTimeComment(idea_Id))
+            //{
+            //    Response.Write("This category is overdue!!!");
+            //}
 
             ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", comment.Idea_Id);
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", comment.User_Id);
             return View(comment);
         }
 
@@ -76,7 +84,6 @@ namespace IdeaManageApp.Controllers
                 return HttpNotFound();
             }
             ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", comment.Idea_Id);
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", comment.User_Id);
             return View(comment);
         }
 
@@ -85,7 +92,7 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Comment_Id,Content,Created_date,User_Id,Idea_Id")] Comment comment)
+        public ActionResult Edit([Bind(Include = "Comment_Id,Content,Created_date,Idea_Id")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +101,6 @@ namespace IdeaManageApp.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", comment.Idea_Id);
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", comment.User_Id);
             return View(comment);
         }
 

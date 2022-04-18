@@ -10,6 +10,7 @@ namespace IdeaManageApp.Controllers
     {
         public ActionResult Index()
         {
+            
             return View();
         }
 

@@ -17,6 +17,7 @@ namespace IdeaManageApp.Controllers
         // GET: Roles
         public ActionResult Index()
         {
+            ViewData["Role"] = Session["Role"];
             return View(db.Roles.ToList());
         }
 

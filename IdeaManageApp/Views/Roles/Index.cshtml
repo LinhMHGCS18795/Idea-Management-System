@@ -2,37 +2,68 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
-<h2>Index</h2>
+<h2 style="text-align:center">Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Role_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Role_Name)
-        </th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role_Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Role_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Role_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Role_Id })
-        </td>
-    </tr>
+@if (ViewBag.Role == "Admin")
+{
+    <!-- Begin Page Content -->
+    <div class="container-fluid admin-artcles" style="text-align:center">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800" >Role</h1>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables Role</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Role</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><div>@item.Role_Id</div></td>
+                                    <td><div>@item.Role_Name</div></td>
+
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Role_Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Role_Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Role_Id })
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- End of Main Content -->
 }
 
-</table>
+else
+{
+    <p>You do not have permission</p>
+}
+
+
+

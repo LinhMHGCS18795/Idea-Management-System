@@ -17,6 +17,7 @@ namespace IdeaManageApp.Controllers
         // GET: Categories
         public ActionResult Index()
         {
+            ViewData["Role"] = Session["Role"];
             var categories = db.Categories.Include(c => c.Submission);
             return View(categories.ToList());
         }

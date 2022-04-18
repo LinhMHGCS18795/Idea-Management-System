@@ -1,0 +1,78 @@
+﻿@model IdeaManageApp.Models.Idea
+
+@{
+    ViewBag.Title = "IdeaDetails";
+}
+
+<h2>Details</h2>
+
+<div style="text-align: center">
+    <h4>Idea</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.Category_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.Category_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.User_Name)
+        </dt>
+
+        <dd>
+            Annonymous
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_Create_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_Create_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idea_File_path)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idea_File_path)
+        </dd>
+
+    </dl>
+</div>
+<p>
+
+    @if (ViewData["Reaction"] != null && @ViewData["Reaction"].ToString() == "True")
+    {
+        @Html.ActionLink("Dislike", "Reaction", Model)
+    }
+
+    else
+    {
+        @Html.ActionLink("Like", "Reaction", Model)
+    }
+    <button type="button" onclick="location.href='@Url.Action("Index","Comments", new {id = Model.Idea_Id})'">Comment</button>
+</p>
+
+
+

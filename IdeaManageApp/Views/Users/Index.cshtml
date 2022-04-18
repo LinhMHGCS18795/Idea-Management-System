@@ -1,81 +1,77 @@
 ﻿@model IEnumerable<IdeaManageApp.Models.User>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
-<h2>Index</h2>
+@if (ViewBag.Role == "Admin")
+{
+    <!-- Begin Page Content -->
+<div class="container-fluid admin-artcles" style="text-align:center">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date_of_birth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone_Number)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Staff_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Department.Department_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Role.Role_Name)
-        </th>
-        <th></th>
-    </tr>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Users</h1>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User_Id)
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.User_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date_of_birth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone_Number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Staff_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Department.Department_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role.Role_Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.User_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.User_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.User_Id })
-        </td>
-    </tr>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables User</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>User Name</th>
+                            <th>Date of birth</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Staff ID</th>
+                            <th>Department</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><div>@item.User_Id</div></td>
+                                <td><div>@item.User_Name</div></td>
+                                <td><div>@item.Date_of_birth</div></td>
+                                <td><div>@item.Phone_Number</div></td>
+                                <td><div>@item.Email</div></td>
+                                <td><div>@item.Password</div></td>
+                                <td><div>@item.Staff_Id</div></td>
+                                <td><div>@item.Department.Department_Id</div></td>
+                                <td><div>@item.Role.Role_Id</div></td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.User_Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.User_Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.User_Id })
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+<!-- End of Main Content -->
 }
 
-</table>
+else
+{
+    <p>You do not have permission</p>
+}
+

@@ -1,0 +1,46 @@
+﻿@using IdeaManageApp.Models
+@model List<DownloadFile>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (ViewBag.Role == "QA Manager" || ViewBag.Role == "Admin")
+{
+    <br />
+    using (Html.BeginForm("Index", "DownloadFile", FormMethod.Post))
+    {
+        <table class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>File Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    <tr>
+                        <td>@Html.CheckBoxFor(m => m[i].IsSelected)</td>
+                        <td>
+                            @Model[i].FileName
+                            @Html.HiddenFor(m => m[i].Idea_File_path)
+                            @Html.HiddenFor(m => m[i].FileName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+
+        <input type="submit" value="Download Selected file as ZIP" />
+    }
+}
+
+else
+{
+    <p>You Do Not Have Permission</p>
+}
+
+
+

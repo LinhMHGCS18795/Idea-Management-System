@@ -8,7 +8,7 @@ namespace IdeaManageApp.Models
     public partial class AppModel : DbContext
     {
         public AppModel()
-            : base("name=AppModel3")
+            : base("name=AppModel5")
         {
         }
 

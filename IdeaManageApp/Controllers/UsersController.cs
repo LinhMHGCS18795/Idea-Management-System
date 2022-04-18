@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IdeaManageApp.Models;
+using PagedList;
 
 namespace IdeaManageApp.Controllers
 {
@@ -17,8 +18,13 @@ namespace IdeaManageApp.Controllers
         // GET: Users
         public ActionResult Index()
         {
+            ViewData["Role"] = Session["Role"];
             var users = db.Users.Include(u => u.Department).Include(u => u.Role);
             return View(users.ToList());
+                     
+                     
+
+            
         }
 
         // GET: Users/Details/5

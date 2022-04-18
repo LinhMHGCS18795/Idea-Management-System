@@ -33,7 +33,7 @@ namespace IdeaManageApp.Models
         [Column(TypeName = "date")]
         public DateTime? Idea_Create_date { get; set; }
 
-        [DisplayName("Upload Image")]
+        [DisplayName("Upload File")]
         public string Idea_File_path { get; set; }
 
         [NotMapped]

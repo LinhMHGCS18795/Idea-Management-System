@@ -124,6 +124,57 @@ namespace IdeaManageApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public void Reaction(int reaction, Idea idea)
+        {
+            if (reaction == 0)
+            {
+                /// create
+                Reaction newReact = new Reaction();
+                newReact.Idea_Id = idea.Idea_Id;
+                newReact.User_Id = idea.User_Id;
+                newReact.is_like = true;
+                newReact.Create_Date = DateTime.Today;
+                db.Reactions.Add(newReact);
+                db.SaveChanges();
+            }
+            else
+            {
+                /// edit 
+                Reaction r = db.Reactions.Find(reaction);
+                if (r.is_like == true)
+                {
+                    r.is_like = false;
+                    r.Create_Date = DateTime.Today;
+                }
+                else
+                {
+                    r.is_like = true;
+                    r.Create_Date = DateTime.Today;
+                }
+                db.Entry(r).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+        }
+
+        public int findReaction(int? userId, int? ideaId)
+        {
+            if (userId != null && ideaId != null)
+            {
+                var react = from s in db.Reactions
+                            where (s.Idea_Id == ideaId && s.User_Id == userId)
+                            select s;
+
+
+                if (react.ToList().Count > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine("!!!!!!!" + react.ToList().FirstOrDefault().Idea_Id);
+                    return react.FirstOrDefault().Reaction_Id;
+                }
+            }
+            return 0;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

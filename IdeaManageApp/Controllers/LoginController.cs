@@ -30,7 +30,21 @@ namespace IdeaManageApp.Controllers
                     {
                         Session["User_Id"] = obj.User_Id.ToString();
                         Session["Email"] = obj.Email.ToString();
-                        return RedirectToAction("Index", "Home");
+                        Session["Role"] = obj.Role.Role_Name.ToString();
+                        if (obj.Role.Role_Name == "Staff")
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+
+                        if (obj.Role.Role_Name == "Admin")
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+
+                        if (obj.Role.Role_Name == "QA Manager")
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
 
                     else

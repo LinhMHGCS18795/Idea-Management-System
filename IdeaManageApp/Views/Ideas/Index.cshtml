@@ -1,75 +1,87 @@
 ﻿@model IEnumerable<IdeaManageApp.Models.Idea>
 
+
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Category_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.User_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Create_date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_File_path)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.TermsAndCondition)
-        </th>*@
-        <th></th>
-    </tr>
+@if (ViewBag.Role == "Admin")
+{
+    <!-- Begin Page Content -->
+    <div class="container-fluid admin-artcles" style="text-align:center">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idea_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Category_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.User_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idea_Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idea_Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idea_Create_date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idea_File_path)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.TermsAndCondition)
-        </td>*@
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Idea_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Idea_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Idea_Id })
-        </td>
-    </tr>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Idea</h1>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables User</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Category</th>
+                                <th>User Name</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Create Date</th>
+                                <th>File</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><div>@item.Idea_Id</div></td>
+                                    <td><div>@item.Category.Category_Name</div></td>
+                                    <td><div>@item.User.User_Id</div></td>
+                                    <td><div>@item.Idea_Title</div></td>
+                                    <td><div>@item.Idea_Content</div></td>
+                                    <td><div>@item.Idea_Create_date</div></td>
+                                    <td><div>@item.Idea_File_path</div></td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Details", new { id = item.User_Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.User_Id })
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- End of Main Content -->
 }
 
-</table>
+
+@if (ViewBag.Role == "QA Manager" || ViewBag.Role == "QA Coordinator" || ViewBag.Role == "Staff")
+{
+    <!-- Begin Page Content -->
+    <div class="container-fluid admin-artcles" style="text-align: center">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Idea</h1>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+
+    </div>
+    <!-- /.container-fluid -->
+    <!-- End of Main Content -->
+}
+

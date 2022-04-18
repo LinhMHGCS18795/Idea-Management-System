@@ -1,13 +1,14 @@
 ﻿@model IdeaManageApp.Models.User
 
 @{
-    ViewBag.Title = "LOGIN";
-
+    ViewBag.Title = "LOGIN";    
 }
 
 <h1>LOGIN FORM</h1>
 
+<div style="text-align: center">
 
+</div>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -23,6 +24,7 @@
                 <img class="mt-4" src="~/Image/User.png" height="50" />
                 <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
             </div>
+            <br />
             <div class="mb-5;">
                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
                 <div class="col-sm-10; text-center;">
@@ -30,6 +32,7 @@
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
+            <br />
             <div class="mb-5">
                 @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-sm-2 col-form-lable" })
                 <div class="col-sm-10; text-center;">
@@ -37,6 +40,7 @@
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
+            <br />
             <div class="col-md-offset-2; text-center;">
                 <input type="submit" value="Login" class="btn btn-lg btn-primary" />
             </div>

@@ -17,7 +17,7 @@ namespace IdeaManageApp.Controllers
         // GET: Views
         public ActionResult Index()
         {
-            var views = db.Views.Include(v => v.Idea).Include(v => v.User);
+            var views = db.Views.Include(v => v.Idea);
             return View(views.ToList());
         }
 
@@ -59,7 +59,7 @@ namespace IdeaManageApp.Controllers
             }
 
             ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", view.Idea_Id);
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", view.User_Id);
+            //ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", view.User_Id);
             return View(view);
         }
 
@@ -76,7 +76,7 @@ namespace IdeaManageApp.Controllers
                 return HttpNotFound();
             }
             ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", view.Idea_Id);
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", view.User_Id);
+            //ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", view.User_Id);
             return View(view);
         }
 
@@ -94,7 +94,7 @@ namespace IdeaManageApp.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", view.Idea_Id);
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", view.User_Id);
+            //ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name", view.User_Id);
             return View(view);
         }
 

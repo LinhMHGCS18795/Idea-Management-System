@@ -2,56 +2,118 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Submission_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Submission_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Submission_Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Submission_Closure_date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Submission_Final_closure_date)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <th>
-            @Html.DisplayFor(modelItem => item.Submission_Id)
-        </th>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submission_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submission_Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submission_Closure_date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submission_Final_closure_date)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Submission_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Submission_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Submission_Id })
-        </td>
-    </tr>
+@if (ViewBag.Role == "Admin")
+{
+    <!-- Begin Page Content -->
+    <div class="container-fluid admin-artcles">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Submissions</h1>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables submission</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Submission Name</th>
+                                <th>Description</th>
+                                <th>Closure Date</th>
+                                <th>Final Closure Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><div>@item.Submission_Id</div></td>
+                                    <td><div>@item.Submission_Name</div></td>
+                                    <td><div>@item.Submission_Description</div></td>
+                                    <td><div>@item.Submission_Closure_date</div></td>
+                                    <td><div>@item.Submission_Final_closure_date</div></td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Submission_Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Submission_Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Submission_Id })
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- End of Main Content -->
 }
 
-</table>
+@if (ViewBag.Role == "Staff" || ViewBag.Role == "QA Coordinator")
+{
+    <!-- Begin Page Content -->
+    <div class="container-fluid admin-artcles">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800" style="text-align:center">Submissions</h1>
+        <p>
+        </p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables submission</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                
+                                <th>Submission Name</th>
+                                <th>Closure Date</th>
+                                <th>Final Closure Date</th>
+                                <th>Option</th>                            
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><div>@item.Submission_Name</div></td>
+                                    <td><div>@item.Submission_Closure_date</div></td>
+                                    <td><div>@item.Submission_Final_closure_date</div></td>
+                                    <td>
+                                        @Html.ActionLink("StaffDetail", "StaffDetail", new { id = item.Submission_Id })
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- End of Main Content -->
+}
+
+
+

@@ -17,6 +17,7 @@ namespace IdeaManageApp.Controllers
         // GET: Departments
         public ActionResult Index()
         {
+            ViewData["Role"] = Session["Role"];
             return View(db.Departments.ToList());
         }
 

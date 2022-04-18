@@ -2,44 +2,75 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
-<h2>Index</h2>
+<h2 style="text-align:center">Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Submission.Submission_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category_Description)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submission.Submission_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category_Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Category_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Category_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Category_Id })
-        </td>
-    </tr>
+
+
+@if (ViewBag.Role == "Admin" || ViewBag.Role == "QA Manager")
+{
+    <!-- Begin Page Content -->
+    <div class="container-fluid admin-artcles" style="text-align:center">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Category</h1>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables Department</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Submission Name</th>
+                                <th>Category Name</th>
+                                <th>Description</th>
+                                <th>Options</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><div>@item.Category_Id</div></td>
+                                    <td><div>@item.Submission.Submission_Name</div></td>
+                                    <td><div>@item.Category_Name</div></td>
+                                    <td><div>@item.Category_Description</div></td>
+
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Category_Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Category_Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Category_Id })
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- End of Main Content -->
 }
 
-</table>
+    }
+else
+{
+    <p>You do not have permission.</p>
+}
+
+

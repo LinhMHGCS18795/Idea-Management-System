@@ -7,34 +7,3 @@
     background-size: cover;
 }
 
-h1 {
-    text-align: center;
-    color: #ff6a00;
-}
-
-.jumbotron {
-    background: rgba(1,1,1,0.3);
-}
-
-p {
-    text-align: justify;
-}
-
-.img-rounded {
-    margin-left: 130px;
-}
-
-.lead {
-    color: aliceblue
-}
-
-.sidebar {
-    position: fixed;
-    z-index: 0;
-    width: 20% !important;
-    background: #fff;
-    padding: 10px 30px !important;
-    box-shadow: 3px 0px 8px rgb(0 0 0 / 5%);
-    margin-top: 80px;
-    height: 100%;
-}

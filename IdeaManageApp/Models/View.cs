@@ -12,12 +12,10 @@ namespace IdeaManageApp.Models
         [Key]
         public int View_Id { get; set; }
 
-        public int? User_Id { get; set; }
+        public int? Total_View { get; set; }
 
         public int? Idea_Id { get; set; }
 
         public virtual Idea Idea { get; set; }
-
-        public virtual User User { get; set; }
     }
 }
