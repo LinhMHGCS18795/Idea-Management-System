@@ -16,17 +16,23 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
+        [Required]
+        [Display(Name = "ID")]
         public int Submission_Id { get; set; }
 
+        [Display(Name = "Name")]
         [StringLength(50)]
         public string Submission_Name { get; set; }
 
+        [Display(Name = "Description")]
         [Column(TypeName = "text")]
         public string Submission_Description { get; set; }
 
+        [Display(Name = "Closure Date")]
         [Column(TypeName = "date")]
         public DateTime? Submission_Closure_date { get; set; }
 
+        [Display(Name = "Final Closure Date")]
         [Column(TypeName = "date")]
         public DateTime? Submission_Final_closure_date { get; set; }
 

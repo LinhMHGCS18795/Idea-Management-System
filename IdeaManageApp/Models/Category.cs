@@ -16,14 +16,19 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
+        [Required]
+        [Display(Name = "ID")]
         public int Category_Id { get; set; }
 
+        [Display(Name = "Category Name")]
         [StringLength(50)]
         public string Category_Name { get; set; }
 
+        [Display(Name = "Description")]
         [Column(TypeName = "text")]
         public string Category_Description { get; set; }
 
+        [Display(Name = "Submission ID")]
         public int? Submission_Id { get; set; }
 
         public virtual Submission Submission { get; set; }

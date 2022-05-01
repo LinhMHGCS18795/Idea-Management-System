@@ -16,8 +16,11 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
+        [Required]
+        [Display(Name = "ID")]
         public int Department_Id { get; set; }
 
+        [Display(Name = "Department Name")]
         [StringLength(50)]
         public string Department_Name { get; set; }
 

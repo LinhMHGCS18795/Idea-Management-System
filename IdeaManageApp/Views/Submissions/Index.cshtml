@@ -1,12 +1,11 @@
-﻿@model IEnumerable<IdeaManageApp.Models.Submission>
+﻿@*@model IEnumerable<IdeaManageApp.Models.Submission>*@
+@using PagedList.Mvc;
+@model PagedList.IPagedList<IdeaManageApp.Models.Submission>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
-
-<h2>Index</h2>
-
 
 @if (ViewBag.Role == "Admin")
 {
@@ -14,6 +13,7 @@
     <div class="container-fluid admin-artcles">
 
         <!-- Page Heading -->
+        <h2>Index</h2>
         <h1 class="h3 mb-2 text-gray-800">Submissions</h1>
         <p>
             @Html.ActionLink("Create New", "Create")
@@ -34,6 +34,7 @@
                                 <th>Description</th>
                                 <th>Closure Date</th>
                                 <th>Final Closure Date</th>
+                                <th>Options</th>
                             </tr>
                         </thead>
 
@@ -64,7 +65,7 @@
     <!-- End of Main Content -->
 }
 
-@if (ViewBag.Role == "Staff" || ViewBag.Role == "QA Coordinator")
+@if (ViewBag.Role == "Staff" || ViewBag.Role == "QA Coordinator" || ViewBag.Role == "QA Manager")
 {
     <!-- Begin Page Content -->
     <div class="container-fluid admin-artcles">
@@ -84,11 +85,11 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                
+
                                 <th>Submission Name</th>
                                 <th>Closure Date</th>
                                 <th>Final Closure Date</th>
-                                <th>Option</th>                            
+                                <th>Option</th>
                             </tr>
                         </thead>
 
@@ -100,7 +101,7 @@
                                     <td><div>@item.Submission_Closure_date</div></td>
                                     <td><div>@item.Submission_Final_closure_date</div></td>
                                     <td>
-                                        @Html.ActionLink("StaffDetail", "StaffDetail", new { id = item.Submission_Id })
+                                        @Html.ActionLink("Detail", "StaffDetail", new { id = item.Submission_Id })
                                     </td>
                                 </tr>
                             }
@@ -114,6 +115,13 @@
     <!-- /.container-fluid -->
     <!-- End of Main Content -->
 }
+
+<div class="pagination">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page }))
+</div>
 
 
 

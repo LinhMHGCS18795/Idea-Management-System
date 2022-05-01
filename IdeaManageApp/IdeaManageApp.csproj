@@ -412,7 +412,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Image\background.jpg" />
     <Content Include="Image\Department.png" />
+    <Content Include="Image\GreenwichBackground.jpg" />
+    <Content Include="Image\lock-icon.png" />
     <Content Include="Image\Role manage.jpg" />
+    <Content Include="Image\user-icon.png" />
     <Content Include="Image\user-management.png" />
     <Content Include="Image\User.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -748,11 +751,6 @@
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Comments\Create.cshtml" />
-    <Content Include="Views\Comments\Delete.cshtml" />
-    <Content Include="Views\Comments\Details.cshtml" />
-    <Content Include="Views\Comments\Edit.cshtml" />
-    <Content Include="Views\Comments\Index.cshtml" />
     <Content Include="Views\Reactions\Create.cshtml" />
     <Content Include="Views\Reactions\Delete.cshtml" />
     <Content Include="Views\Reactions\Details.cshtml" />
@@ -767,6 +765,11 @@
     <Content Include="Views\Shared\_LayoutManagement.cshtml" />
     <Content Include="Views\Submissions\IdeaDetails.cshtml" />
     <Content Include="Views\Submissions\IdeaComment.cshtml" />
+    <Content Include="Views\Comments\Create.cshtml" />
+    <Content Include="Views\Comments\Delete.cshtml" />
+    <Content Include="Views\Comments\Details.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,16 +20,22 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
+        [Required]
+        [Display(Name = "ID")]
         public int Idea_Id { get; set; }
 
+        [Display(Name = "Category ID")]
         public int? Category_Id { get; set; }
 
+        [Display(Name = "Title")]
         [StringLength(50)]
         public string Idea_Title { get; set; }
 
+        [Display(Name = "Cotent")]
         [Column(TypeName = "text")]
         public string Idea_Content { get; set; }
 
+        [Display(Name = "Create Date")]
         [Column(TypeName = "date")]
         public DateTime? Idea_Create_date { get; set; }
 
@@ -39,8 +45,10 @@ namespace IdeaManageApp.Models
         [NotMapped]
         public HttpPostedFileBase MyFile { get; set; }
 
+        [Display(Name = "User ID")]
         public int? User_Id { get; set; }
 
+        [Display(Name = "Terms and Conditions")]
         public bool TermsAndCondition { get; set; }
 
         public virtual Category Category { get; set; }

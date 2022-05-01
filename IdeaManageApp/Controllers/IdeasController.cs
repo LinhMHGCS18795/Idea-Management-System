@@ -8,7 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IdeaManageApp.Models;
+using Microsoft.Ajax.Utilities;
 using PagedList;
+using PagedList.Mvc;
 using Xceed.Wpf.Toolkit;
 
 namespace IdeaManageApp.Controllers
@@ -22,26 +24,29 @@ namespace IdeaManageApp.Controllers
         public ActionResult Index(int? page)
         {
             ViewData["Role"] = Session["Role"];
+            
             var ideas = db.Ideas.Include(i => i.Category).Include(i => i.User);
-            return View(ideas.ToList());
+            //List<Statistic> list = StatisticByContribute();
+            //Test();
 
-            if (page == null) page = 1;
-
-            var links = (from l in db.Ideas
-                         select l).OrderBy(x => x.Idea_Id);
-
-            int pageSize = 3;
-
+            //Page List
+            if (page == null) page = 1;            
+            var idea = (from l in db.Ideas select l).OrderBy(x => x.Idea_Id);                       
+            int pageSize = 5;            
             int pageNumber = (page ?? 1);
+            
+            return View(idea.ToPagedList(pageNumber, pageSize));
+        
 
-            return View(links.ToPagedList(pageNumber, pageSize));
+            //return View(ideas.ToList());
+
         }
 
         // GET: Ideas/Create
         public ActionResult Create()
         {
             ViewBag.Category_Id = new SelectList(db.Categories, "Category_Id", "Category_Name");
-            ViewBag.User_Id = new SelectList(db.Users, "User_Id", "User_Name");
+            ViewBag.id = Convert.ToInt32(Session["User_Id"]);
             return View();
         }
 
@@ -63,7 +68,7 @@ namespace IdeaManageApp.Controllers
                 view.Idea_Id = idea.Idea_Id;
                 db.Views.Add(view);
                 db.SaveChanges();
-                //SendNotification(idea);
+                SendNotification(db.Ideas.Find(idea.Idea_Id));
                 return RedirectToAction("Index");
             }
             else
@@ -187,39 +192,6 @@ namespace IdeaManageApp.Controllers
             }
         }
 
-        public Boolean CheckTimeComment(int IdeaId)
-        {
-            DateTime current = DateTime.Today;
-
-            Idea currentIdea = db.Ideas.Find(IdeaId);
-
-            if (currentIdea != null)
-            {
-                //System.Diagnostics.Debug.WriteLine(">>>>>>222" + IdeaId);
-
-                int commentValidate = DateTime.Compare((DateTime)current, (DateTime)currentIdea.Category.Submission.Submission_Final_closure_date);
-                if (commentValidate > 0)
-                {
-                    // notification out of date
-                    return false;
-                   
-                }
-                else
-                {
-                    return true;
-                    //return View(create comment);
-                }
-            }
-            else
-            {
-                //System.Diagnostics.Debug.WriteLine(">>>>>>333" + IdeaId);
-
-                // notification this idea not exist
-                //Response.Write("This idea is not exist!!!");
-                return false;
-            }
-        }
-
         protected void StatisticByDepartment(int departmentId)
         {
             if (departmentId != null && departmentId > 0)
@@ -279,23 +251,30 @@ namespace IdeaManageApp.Controllers
 
         protected void SendNotification(Idea idea)
         {
-            EmailModel notificationMail = new EmailModel();
-            var department = from d in db.Departments
-                                 join u in db.Users on d.Department_Id equals u.Department_Id
-                                 where u.User_Id == idea.User_Id select d;
-            Department dept = new Department();
-            if (department != null)
+            
+            var department = db.Ideas.Include(u => u.User).Include(d => d.User.Department).
+                Where(x => x.User_Id == idea.User_Id).Select(s => s.User.Department_Id).ToList();
+            
+            if (department.Count != 0)
             {
-                dept = department.First();
-                var list = db.Users.Include(d => d.Department).Where(u => u.Role.Role_Name == "QA Coordinator" && u.Department_Id == dept.Department_Id);
-                if (list != null)
+                var qaList = db.Users.Include(d => d.Department).Where(x=> department.Contains(x.Department_Id) && x.Role.Role_Name == "QA Coordinator").ToList();
+                var userSendIDea = db.Users.Find(idea.User_Id);
+                if (qaList.Count != 0)
                 {
-                    foreach (var u in list.ToList())
+                    foreach (var u in qaList)
                     {
-                        
+                        System.Diagnostics.Debug.WriteLine("Email>>>>> "+u.User_Name);
+                        EmailModel notificationMail = new EmailModel();
                         notificationMail.To = u.Email;
                         notificationMail.Subject = "New Idea has created!";
-                        notificationMail.Body = "User: " + u.User_Name + " send new idea";
+                        if(userSendIDea != null)
+                        {
+                            notificationMail.Body = "User: " + userSendIDea.User_Name +" send new idea!";
+                        } else
+                        {
+                            notificationMail.Body = "User in your department send new idea!";
+                        }
+                       
                         emailServiceController.FillEmailAndSend(notificationMail);
                     }
                 }
@@ -393,34 +372,148 @@ namespace IdeaManageApp.Controllers
             return listStatistic;
         }
 
-        public List<Statistic> StatisticByContribute()
+        public List<Statistic> Test()
         {
-            var ideas = db.Ideas.Include(i => i.User);
-            var users = db.Users.Include(u => u.Department);
-            var departments = db.Departments;
+            List<Statistic> statisticsList = new List<Statistic>();
+            //load department
+            var department = db.Departments.Select(d => d.Department_Name).ToList();
+            if (department.Count() > 0)
+            {
+                foreach(var d in department)
+                {
+                    Statistic s = new Statistic();
+                    s.departmentName = d.ToString();
+                    statisticsList.Add(s);
+                }
+            }
+
+            var listUser = db.Ideas.Include(i => i.User).Select(x => x.User_Id).Distinct().ToList();
+            if(listUser != null)
+            {
+                /// contribute statistic
+                var listUserContributed = db.Users.Include(u => u.Department).
+               Where(x => listUser.Contains(x.User_Id)).
+               GroupBy(d => d.Department.Department_Name).Select(z => new
+               {
+                   DepartmentName = z.Key,
+                   Count = z.Count()
+               });
+
+                /// total idea statistic
+                var listTotalIdea = db.Ideas.Include(u => u.User).Include(d => d.User.Department).
+                    GroupBy(d =>d.User.Department.Department_Name).Select(z => new
+                {
+                    DepartmentName = z.Key,
+                    Count = z.Count()
+                });
+
+                /// percentage statistic
+                float totalIdea = db.Ideas.ToList().Count();
+
+                if (listUserContributed.ToList().Count != 0 && listTotalIdea.ToList().Count != 0)
+                {
+                    
+                    foreach(var i in listUserContributed)
+                    {
+                        foreach(var s in statisticsList)
+                        {
+                            if(s.departmentName == i.DepartmentName)
+                            {
+                                s.contributeNumber = i.Count;
+                            }
+                        }
+                    }
+
+                    foreach(var i in listTotalIdea)
+                    {
+                        foreach(var s in statisticsList)
+                        {
+                            if(s.departmentName == i.DepartmentName)
+                            {
+                                s.totalIdea = i.Count;
+                                s.percentageIdea = ((i.Count / totalIdea) * 100);
+                                s.percentageIdea = (float)Math.Round(s.percentageIdea, 2);
+                            }
+                        }
+                    }
+                    return statisticsList;
+                }
+            }
+            return null;
+        }
+
+        public DataTable TestDataTable()
+        {
+            DataTable dtable = new DataTable();
+            dtable.Columns.Add("Department_Name", typeof(string));
+            dtable.Columns.Add("Contributors", typeof(int));
+
+            var listUser = db.Ideas.Include(i => i.User).Select(x => x.User_Id).Distinct().ToList();
+            if (listUser != null)
+            {
+                var listUserContributed = db.Users.Include(u => u.Department).
+               Where(x => listUser.Contains(x.User_Id)).
+               GroupBy(d => d.Department.Department_Name).Select(z => new
+               {
+                   DepartmentName = z.Key,
+                   Count = z.Count()
+               });
+                if (listUserContributed.ToList().Count != 0 && listUserContributed.ToList().Count > 0)
+                {
+                    
+
+                    List<Statistic> statisticsList = new List<Statistic>();
+                    foreach (var i in listUserContributed)
+                    {
+                        Statistic s = new Statistic();
+                        s.departmentName = i.DepartmentName;
+                        s.contributeNumber = i.Count;
+                        statisticsList.Add(s);
+                        dtable.Rows.Add(new object[] { i.DepartmentName, i.Count });
+                        System.Diagnostics.Debug.WriteLine(">>>Name " + i.DepartmentName + " ------- " + i.Count);
+                    }
+                    return dtable;
+                }
+            }
+            return null;
+            //Total contribute
+            //var listUserContribute = db.Ideas.Include(i => i.User).Include(u => u.User.Department).
+            //    Select(x => new { Department_Name = x.User.Department.Department_Name, User_Id = x.User.User_Id }).ToList();
+            //System.Diagnostics.Debug.WriteLine(">>>listUserContribute: " + listUserContribute.Distinct().Count());
+
+        }
+
+        /*public List<Statistic> StatisticByContribute()
+        {
+            //DateTime DateFrom = DateTime.Now;
+            //DateTime DateTo = DateTime.Now;
+
+            var users1 = db.Users.Include(d => d.Department).Distinct();
+
+            //  ideas1.Where(i => i.Idea_Create_date >= DateFrom && i.Idea_Create_date <= DateTo);
+            var ideas1 = db.Ideas.Include(u => u.User).
+                Where(i => users1.Select(u => u.User_Id).ToList().Contains(i.User_Id.Value))
+                .Select(u => new { u.User_Id,u.User.Department.Department_Name, u.User.Department_Id }).Distinct();
+            System.Diagnostics.Debug.WriteLine(">>> " + ideas1.ToList().Count);
+            //// Count user_ID and group by department name in ideas1 ??????
+            //ideas1.Select(x => new {x.User_Id, count = Count(x.User_Id)});
+            //System.Diagnostics.Debug.WriteLine(">>>>>>" +);
+            //ideas1.Select(y => new {y.Department_Name, Count = ideas1.Count(y.User_Id)});
+            //ideas1.GroupBy(y => y.Department_Name).Select(z => new { z.Key, Count =)})
+ 
+            foreach (var item in ideas1)
+            {
+                
+                System.Diagnostics.Debug.WriteLine("NAME: "+item.Department_Name+" _____ID: "+item.User_Id);
+            }
+           
 
             /// number of contributor of each department
-            var query = from idea in ideas
-                        join user in users on idea.User_Id equals user.User_Id
-                        join department in departments on user.Department_Id equals department.Department_Id
-                        group user.Department_Id by user.Department into dt
-                        select new
-                        {
-                            DepartmentName = dt.Key,
-                            Count = dt.Key.Users.Distinct().Count()
-                        };
+            
 
             List < Statistic > listStatistic = new List<Statistic>();
-
-            foreach (var s in query.ToList())
-            {
-                Statistic sta = new Statistic();
-                sta.departmentName = s.DepartmentName.Department_Name;
-                sta.contributeNumber = s.Count;
-                listStatistic.Add(sta);
-            }
             return listStatistic;
-        }
+        }*/
 
         public Idea PopularIdea()
         {
@@ -542,15 +635,11 @@ namespace IdeaManageApp.Controllers
             //                 orderby s.Created_date descending
             //                 select s;
             var commentList = db.Comments.OrderByDescending(x => x.Created_date).AsQueryable().ToList();
-            Comment c = commentList.First();
             Idea i = new Idea();
-            System.Diagnostics.Debug.WriteLine("!!!!!!!ccccc comment" + c.Idea_Id);
-
-            if (c != null)
+            if (commentList.Count != 0)
             {
-                i = db.Ideas.Find(c.Idea_Id);
+                i = db.Ideas.Find(commentList.First().Idea_Id);
             }
-            System.Diagnostics.Debug.WriteLine("!!!!!!!lastest comment" + i.Idea_Id);
             return i;
         }
 

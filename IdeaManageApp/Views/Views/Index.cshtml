@@ -15,9 +15,11 @@
             @Html.DisplayNameFor(model => model.Idea.Idea_Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.User_Name)
+            @*@Html.DisplayNameFor(model => model.User.User_Name)*@
         </th>
-        <th></th>
+        <th>
+            Option
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -26,7 +28,7 @@
             @Html.DisplayFor(modelItem => item.Idea.Idea_Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.User_Name)
+            @*@Html.DisplayFor(modelItem => item.User.User_Name)*@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.View_Id }) |

@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
 @if (ViewBag.Role == "QA Manager" || ViewBag.Role == "Admin")
@@ -13,7 +14,7 @@
         <table class="table table-bordered table-condensed">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>Options</th>
                     <th>File Name</th>
                 </tr>
             </thead>
@@ -39,7 +40,7 @@
 
 else
 {
-    <p>You Do Not Have Permission</p>
+    <h2 style="text-align:center">You Do Not Have Permission</h2>
 }
 
 

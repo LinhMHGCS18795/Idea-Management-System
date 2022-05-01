@@ -4,3 +4,22 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 
+@if (ViewBag.Role == "Admin")
+{
+    <h4 style="text-align:center">Wellcome ADMIN to the IGreApp system</h4>
+}
+
+@if (ViewBag.Role == "QA Manager")
+{
+    <h4 style="text-align:center">Wellcome QA MANAGER to the IGreApp system</h4>
+}
+
+@if (ViewBag.Role == "Staff")
+{
+    <h4 style="text-align:center">Wellcome STAFF to the IGreApp system</h4>
+}
+
+@if (ViewBag.Role == "QA Coordinator")
+{
+    <h4 style="text-align:center">Wellcome QA COORDINATOR to the IGreApp system</h4>
+}

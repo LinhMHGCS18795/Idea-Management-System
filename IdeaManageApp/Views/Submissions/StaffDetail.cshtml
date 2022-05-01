@@ -1,155 +1,168 @@
-﻿@model IEnumerable<IdeaManageApp.Models.Idea>
+﻿@*@model IEnumerable<IdeaManageApp.Models.Idea>*@
+@using PagedList.Mvc;
+@model PagedList.IPagedList<IdeaManageApp.Models.Idea>
 
 @{
     ViewBag.Title = "StaffDetail";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
 <h2>Detail</h2>
 
-@if (ViewBag.Role == "Staff")
+@if (ViewBag.Role == "Staff" || ViewBag.Role == "QA Coordinator" || ViewBag.Role == "QA Manager")
 {
-
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Category_Name)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Create_date)
-        </th>
-        <th></th>
-    </tr>
-    @if (@ViewData["popularIdeaCateName"] != null)
-    {
+    <table class="table">
         <tr>
-            <th>Popular Ideas</th>
+            <th>
+                Category
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Content
+            </th>
+            <th>
+                Create Date
+            </th>
+            <th></th>
         </tr>
-        <tr>
-            <td>
-                @ViewData["popularIdeaCateName"]
-            </td>
-            <td>
-                @ViewData["popularIdeaTitle"]
-            </td>
-            <td>
-                @ViewData["popularIdeaContent"]
-            </td>
-            <td>
-                @ViewData["popularIdeaCreateDate"]
-            </td>
-        </tr>
-    }
-    @if (@ViewData["mostViewIdeaCateName"] != null)
-    {
-        <tr>
-            <th>Most View Ideas</th>
-        </tr>
-        <tr>
-            <td>
-                @ViewData["mostViewIdeaCateName"]
-            </td>
-            <td>
-                @ViewData["mostViewIdeaTitle"]
-            </td>
-            <td>
-                @ViewData["mostViewIdeaContent"]
-            </td>
-            <td>
-                @ViewData["mostViewIdeaCreateDate"]
-            </td>
-        </tr>
-    }
-    @if (@ViewData["latestCommentCateName"] != null)
-    {
-        <tr>
-            <th> Latest Comment</th>
-        </tr>
-        <tr>
-            <td>
-                @ViewData["latestCommentCateName"]
-            </td>
-            <td>
-                @ViewData["latestCommentTitle"]
-            </td>
-            <td>
-                @ViewData["latestCommentContent"]
-            </td>
-            <td>
-                @ViewData["latestCommentCreateDate"]
-            </td>
-        </tr>
-    }
+        @if (@ViewData["popularIdeaCateName"] != null)
+        {
+            <tr>
+                <th>Popular Ideas</th>
+            </tr>
+            <tr>
+                <td>
+                    @ViewData["popularIdeaCateName"]
+                </td>
+                <td>
+                    @ViewData["popularIdeaTitle"]
+                </td>
+                <td>
+                    @ViewData["popularIdeaContent"]
+                </td>
+                <td>
+                    @ViewData["popularIdeaCreateDate"]
+                </td>
+            </tr>
+        }
 
-    @if (@ViewData["latestIdeaCateName"] != null)
-    {
-        <tr>
-            <th> Latest Ideas</th>
-        </tr>
-        <tr>
-            <td>
-                @ViewData["latestIdeaCateName"]
-            </td>
-            <td>
-                @ViewData["latestIdeaTitle"]
-            </td>
-            <td>
-                @ViewData["latestIdeaContent"]
-            </td>
-            <td>
-                @ViewData["latestIdeaCreateDate"]
-            </td>
-            <td></td>
-        </tr>
-    }
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Category_Name)
-        </th>
+        @if (@ViewData["mostViewIdeaCateName"] != null)
+        {
+            <tr>
+                <th>Most View Ideas</th>
+            </tr>
+            <tr>
+                <td>
+                    @ViewData["mostViewIdeaCateName"]
+                </td>
+                <td>
+                    @ViewData["mostViewIdeaTitle"]
+                </td>
+                <td>
+                    @ViewData["mostViewIdeaContent"]
+                </td>
+                <td>
+                    @ViewData["mostViewIdeaCreateDate"]
+                </td>
+            </tr>
+        }
 
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea_Create_date)
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
+        @if (@ViewData["latestCommentCateName"] != null)
+        {
+            <tr>
+                <th> Latest Comment</th>
+            </tr>
+            <tr>
+                <td>
+                    @ViewData["latestCommentCateName"]
+                </td>
+                <td>
+                    @ViewData["latestCommentTitle"]
+                </td>
+                <td>
+                    @ViewData["latestCommentContent"]
+                </td>
+                <td>
+                    @ViewData["latestCommentCreateDate"]
+                </td>
+            </tr>
+        }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Category_Name)
-            </td>
+        @if (@ViewData["latestIdeaCateName"] != null)
+        {
+            <tr>
+                <th> Latest Ideas</th>
+            </tr>
+            <tr>
+                <td>
+                    @ViewData["latestIdeaCateName"]
+                </td>
+                <td>
+                    @ViewData["latestIdeaTitle"]
+                </td>
+                <td>
+                    @ViewData["latestIdeaContent"]
+                </td>
+                <td>
+                    @ViewData["latestIdeaCreateDate"]
+                </td>
+                <td></td>
+            </tr>
+        }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Idea_Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Idea_Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Idea_Create_date)
-            </td>
+    </table>
 
-            <td>
-                @Html.ActionLink("Details", "ideaDetails", new { id = item.Idea_Id })
-            </td>
-        </tr>
-    }
+    <br />
+    <br />
 
-</table>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Idea</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Idea Title</th>
+                            <th>Content</th>
+                            <th>Total View</th>
+                            <th>Create Date</th>
+                            <th>Option</th>
+                        </tr>
+                    </thead>
 
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><div>@item.Category.Category_Name</div></td>
+                                <td><div>@item.Idea_Title</div></td>
+                                <td><div>@item.Idea_Content</div></td>
+                                <td><div>@item.Views.First().Total_View</div></td>
+                                <td><div>@item.Idea_Create_date</div></td>
+                                <td>
+                                    @Html.ActionLink("Details", "ideaDetails", new { id = item.Idea_Id })
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
+
+<br />
+
+<div class="pagination">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount |
+    
+    @Html.PagedListPager(Model, page => Url.Action("StaffDetail",
+        new { page }))
+</div>
 

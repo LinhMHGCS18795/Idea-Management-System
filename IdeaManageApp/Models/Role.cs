@@ -16,8 +16,11 @@ namespace IdeaManageApp.Models
         }
 
         [Key]
+        [Required]
+        [Display(Name = "ID")]
         public int Role_Id { get; set; }
 
+        [Display(Name = "Name")]
         [StringLength(50)]
         public string Role_Name { get; set; }
 

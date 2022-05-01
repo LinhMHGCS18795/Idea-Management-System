@@ -13,15 +13,20 @@ namespace IdeaManageApp.Controllers
     public class CommentsController : Controller
     {
         private AppModel db = new AppModel();
-        IdeasController ideasController = new IdeasController();
-        int idea_Id;
-
+        private EmailServiceController emailServiceController = new EmailServiceController();
         // GET: Comments
-        public ActionResult Index(int? id)
+        public ActionResult Index(Idea Idea)
         {
-            var comments = db.Comments.Include(c => c.Idea).Where(i =>i.Idea_Id == id);
-            
-            return View(comments.ToList());
+            ViewData["Role"] = Session["Role"];
+            if (Idea.Idea_Id != 0 )
+            {
+                ViewBag.idea_Id = Idea.Idea_Id;
+                return View(db.Comments.Include(c => c.Idea).Include(c => c.User).Where(x => x.Idea_Id == Idea.Idea_Id).ToList());
+            }
+            else
+            {
+                return View(db.Comments.Include(c => c.Idea).Include(c => c.User).ToList());
+            }
         }
 
         // GET: Comments/Details/5
@@ -40,12 +45,13 @@ namespace IdeaManageApp.Controllers
         }
 
         // GET: Comments/Create
-        public ActionResult Create()
+        public ActionResult Create(int? Id)
         {
-            System.Diagnostics.Debug.WriteLine(">>>>>LO"+db.Ideas.ToList().Count());
-            ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title");
-            System.Diagnostics.Debug.WriteLine(">>>>>LOAD");
-            return View();
+            ViewBag.idea_Id = Id;
+            ViewBag.id = Convert.ToInt32(Session["User_Id"]);
+            Comment c = new Comment();
+            c.Idea = db.Ideas.Find(Id);
+            return View(c);
         }
 
         // POST: Comments/Create
@@ -53,21 +59,24 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Comment_Id,Content,Created_date,Idea_Id")] Comment comment)
+        public ActionResult Create([Bind(Include = "Comment_Id,Content,Created_date,User_Id,Idea_Id")] Comment comment)
         {
-            System.Diagnostics.Debug.WriteLine(">>>>>SAVE");
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && CheckTimeComment((int)comment.Idea_Id, (DateTime)comment.Created_date))
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.idea_Id = comment.Idea_Id;
+                SendNotification(comment);
+                return RedirectToAction("Index", db.Ideas.Find(comment.Idea_Id));
+            } else
+            {
+                if (!CheckTimeComment(((int)comment.Idea_Id), (DateTime)comment.Created_date))
+                {
+                    Response.Write("Your comment is overdue");
+                }
             }
-            //if (!ideasController.CheckTimeComment(idea_Id))
-            //{
-            //    Response.Write("This category is overdue!!!");
-            //}
 
-            ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", comment.Idea_Id);
+            ViewBag.idea_Id = comment.Idea_Id;
             return View(comment);
         }
 
@@ -83,7 +92,6 @@ namespace IdeaManageApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", comment.Idea_Id);
             return View(comment);
         }
 
@@ -92,7 +100,7 @@ namespace IdeaManageApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Comment_Id,Content,Created_date,Idea_Id")] Comment comment)
+        public ActionResult Edit([Bind(Include = "Comment_Id,Content,Created_date,User_Id,Idea_Id")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +108,6 @@ namespace IdeaManageApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", comment.Idea_Id);
             return View(comment);
         }
 
@@ -137,6 +144,49 @@ namespace IdeaManageApp.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        protected void SendNotification(Comment comment)
+        {
+
+            var idea = db.Ideas.Include(u => u.User).Where(x => x.Idea_Id == comment.Idea_Id).First();
+            if(idea.User_Id != 0 && comment.User_Id != 0 && idea.Idea_Id != 0)
+            {
+                var userReceive = db.Users.Find(idea.User_Id);
+                if(userReceive.Email != null)
+                {
+                    EmailModel notificationMail = new EmailModel();
+                    notificationMail.To = userReceive.Email;
+                    notificationMail.Subject = "Your Idea has new comment!";
+                    notificationMail.Body = "Idea: " + idea.Idea_Title + " has new comment!";
+                    emailServiceController.FillEmailAndSend(notificationMail);
+                }
+                
+            }
+        }
+
+        public Boolean CheckTimeComment(int IdeaId, DateTime date)
+        {
+            Idea currentIdea = db.Ideas.Find(IdeaId);
+
+            if (currentIdea != null)
+            {
+                int commentValidate = DateTime.Compare(date, (DateTime)currentIdea.Category.Submission.Submission_Final_closure_date);
+                //System.Diagnostics.Debug.WriteLine("<<<<<<<1" + date + " ----------2 " + currentIdea.Category.Submission.Submission_Final_closure_date + " ============> " + commentValidate);
+                if (commentValidate > 0)
+                {
+                    // notification out of date
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

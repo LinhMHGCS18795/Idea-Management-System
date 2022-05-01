@@ -24,9 +24,12 @@ namespace IdeaManageApp.Controllers
 
         public void FillEmailAndSend(EmailModel mail)
         {
+            MailboxAddress from = new MailboxAddress("FGW IGRE System", "igreaddmin@gmail.com");
+            MailboxAddress to = new MailboxAddress("QA Coordinator", mail.To);
+
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("linhemma0601@gmail.com"));
-            email.To.Add(MailboxAddress.Parse(mail.To));
+            email.From.Add(from);
+            email.To.Add(to);
             email.Subject = mail.Subject;
             email.Body = new TextPart(TextFormat.Html) { Text = mail.Body };
             System.Diagnostics.Debug.WriteLine(">>>>>>> Fill");
@@ -36,14 +39,13 @@ namespace IdeaManageApp.Controllers
         public void SendEmail(MimeMessage mail)
         {
             var smtp = new SmtpClient();
-            smtp.ServerCertificateValidationCallback = (sender, certificate, certChainType, errors) => true;
             smtp.AuthenticationMechanisms.Remove("XOAUTH2");
-            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate(new NetworkCredential("linhemma0601@gmail.com", "Emma0777026608"));
-            //smtp.Authenticate("linhemma0601@gmail.com", "Emma0777026608");
+            smtp.Connect("smtp.gmail.com", 465, true);
+            smtp.Authenticate("igreaddmin@gmail.com", "igre@123");
             System.Diagnostics.Debug.WriteLine(">>>>>>> Send");
             smtp.Send(mail);
             smtp.Disconnect(true);
+            smtp.Dispose();
         }
 
 

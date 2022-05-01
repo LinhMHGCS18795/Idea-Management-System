@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IdeaManageApp.Models;
+using PagedList;
 using StackExchange.Redis;
 
 namespace IdeaManageApp.Controllers
@@ -21,10 +22,17 @@ namespace IdeaManageApp.Controllers
         // GET: Submissions
 
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             ViewData["Role"] = Session["Role"];
-            return View(db.Submissions.ToList());
+
+            //PageList
+            if (page == null) page = 1;            
+            var submission = (from l in db.Submissions select l).OrderBy(x => x.Submission_Id);                       
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            
+            return View(submission.ToPagedList(pageNumber, pageSize));
         }
 
 
@@ -44,7 +52,7 @@ namespace IdeaManageApp.Controllers
             return View(submission);
         }
 
-        public ActionResult StaffDetail(int? id)
+        public ActionResult StaffDetail(int? id ,int? page)
         {
             ViewData["Role"] = Session["Role"];
 
@@ -53,11 +61,19 @@ namespace IdeaManageApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            loadPopular();
+            //Page List
+            if (page == null) page = 1;
+            var idea = (from l in db.Ideas select l).OrderBy(x => x.Idea_Id);
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
 
-            var ideas = db.Ideas.Include(i => i.Category).Include(s => s.Category.Submission).Where(x => x.Category.Submission_Id == id);
 
-            return View(ideas.ToList());
+            loadPopular();                       
+
+            var ideas = db.Ideas.Include(i => i.Category).Include(s => s.Category.Submission).Include(v => v.Views).
+                Where(x => x.Category.Submission_Id == id).OrderBy(x=> x.Idea_Id);
+            
+            return View(ideas.ToPagedList(pageNumber, pageSize));
 
         }
 
@@ -153,7 +169,7 @@ namespace IdeaManageApp.Controllers
         public void loadPopular()
         {
             Idea popularIdea = IdeasController.PopularIdea();
-            if (popularIdea != null)
+            if (popularIdea.Idea_Id != 0)
             {
                 ViewData["popularIdeaCateName"] = popularIdea.Category.Category_Name;
                 ViewData["popularIdeaTitle"] = popularIdea.Idea_Title;
@@ -161,7 +177,7 @@ namespace IdeaManageApp.Controllers
                 ViewData["popularIdeaCreateDate"] = popularIdea.Idea_Create_date;
             }
             Idea mostViewIdea = IdeasController.MostViewIdea();
-            if (popularIdea != null)
+            if (popularIdea.Idea_Id != 0)
             {
                 ViewData["mostViewIdeaCateName"] = mostViewIdea.Category.Category_Name;
                 ViewData["mostViewIdeaTitle"] = mostViewIdea.Idea_Title;
@@ -169,7 +185,7 @@ namespace IdeaManageApp.Controllers
                 ViewData["mostViewIdeaCreateDate"] = mostViewIdea.Idea_Create_date;
             }
             Idea latestComment = IdeasController.LatestComment();
-            if (popularIdea != null)
+            if (latestComment.Idea_Id != 0)
             {
                 ViewData["latestCommentCateName"] = latestComment.Category.Category_Name;
                 ViewData["latestCommentTitle"] = latestComment.Idea_Title;
@@ -177,7 +193,7 @@ namespace IdeaManageApp.Controllers
                 ViewData["latestCommentCreateDate"] = latestComment.Idea_Create_date;
             }
             Idea latestIdea = IdeasController.LatestIdea();
-            if (popularIdea != null)
+            if (latestIdea.Idea_Id != 0)
             {
                 ViewData["latestIdeaCateName"] = latestIdea.Category.Category_Name;
                 ViewData["latestIdeaTitle"] = latestIdea.Idea_Title;
@@ -197,14 +213,15 @@ namespace IdeaManageApp.Controllers
             {
                 return HttpNotFound();
             }
+
             View view = db.Views.Include(v => v.Idea).Where(v => v.Idea_Id == id).FirstOrDefault();
-            if (view == null)
+            if(view != null)
             {
-                return HttpNotFound();
+                view.Total_View++;
+                db.Entry(view).State = EntityState.Modified;
+                db.SaveChanges();
             }
-            view.Total_View++;
-            db.Entry(view).State = EntityState.Modified;
-            db.SaveChanges();
+
             int rId = reactionsController.findReaction(idea.User_Id, idea.Idea_Id);
             if (rId != 0)
             {
@@ -214,20 +231,6 @@ namespace IdeaManageApp.Controllers
             return View(idea);
         }
 
-        public void IdeaComment(int? id)
-        {
-            //Comment comment = db.Comments.Include(c => c.Idea).Where(c => c.Idea_Id == id).FirstOrDefault();
-            //if (ModelState.IsValid)
-            //{
-            //    db.Comments.Add(comment);
-            //    db.SaveChanges();
-
-            //}
-
-            //ViewBag.Idea_Id = new SelectList(db.Ideas, "Idea_Id", "Idea_Title", comment.Idea_Id);
-
-            commentsController.Create();
-        }
 
         public void Reaction(Idea idea)
         {

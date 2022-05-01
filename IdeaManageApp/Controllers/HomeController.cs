@@ -10,7 +10,7 @@ namespace IdeaManageApp.Controllers
     {
         public ActionResult Index()
         {
-            
+            ViewData["Role"] = Session["Role"];
             return View();
         }
 

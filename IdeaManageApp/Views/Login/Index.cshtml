@@ -1,57 +1,110 @@
 ﻿@model IdeaManageApp.Models.User
 
 @{
-    ViewBag.Title = "LOGIN";    
+    ViewBag.Title = "LOGIN";
+    
 }
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>LOGIN FORM</h1>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Login</title>
 
-<div style="text-align: center">
+    <style>
 
-</div>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        body {
+            background-image: url('../../Image/GreenwichBackground.jpg');
+            background-size: cover;
+            font-family: 'Lato', sans-serif;
+            color: #4A4A4A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            opacity: 0.8;
+        }
+        @*body {
+            background-image: url('../../Image/GreenwichBackground.jpg');
+            opacity: 0.8;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+        }*@
+        form {
+            border: 3px solid #f1f1f1;
+            padding: 10px;
+            background-color: White;
+        }
 
-    <div class="text-center; mb-5">
-        <h4>Please input your email and password</h4>
-        <hr />
+        input, select, textarea {
+            max-width: 750px;
+        }
+        .button {
+            background-color: #DDDDDD;
+            color: white;
+            padding: 6px 6px;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            text-align: center;
+        }
+        .btn-lg, .btn-group-lg > .btn {
+            line-height: 1.3333333;
+            border-radius: 6px;
+            padding: 6px 135px;
+            font-size: 18px;
+        }
+        img {
+            opacity: 0.5;
+        }
+    </style>
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <form name="form" method="post">
+            <div class="text-center; mb-5">
+                <h1 style="text-align:center">LOGIN FORM</h1>
+                <br />
+                <h4 style="text-align:center">Please input your email and password</h4>
+                <br />
 
-        <form style="max-width:500px; margin:auto;">
-            <div>
-                <img class="mt-4" src="~/Image/User.png" height="50" />
-                <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
-            </div>
-            <br />
-            <div class="mb-5;">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
-                <div class="col-sm-10; text-center;">
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="mb-5;">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <br />
+                    <div class="col-sm-10; text-center;">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Input Email" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="mb-5">
-                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-sm-2 col-form-lable" })
-                <div class="col-sm-10; text-center;">
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <br />
+                <div class="mb-5">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-sm-2 col-form-lable" })
+                    <br />
+                    <div class="col-sm-10; text-center;">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Input Password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="col-md-offset-2; text-center;">
-                <input type="submit" value="Login" class="btn btn-lg btn-primary" />
+                <br />
+                <div class="button">
+                    <input type="submit" value="Login" class="btn btn-lg btn-primary"/>
+                </div>
+
             </div>
         </form>
+     }
+    </body>
+</html>
 
-    </div>
-}
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Styles.Render("~/Style/Style_login.css")
-}
 

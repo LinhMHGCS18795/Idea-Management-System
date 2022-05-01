@@ -1,5 +1,6 @@
-﻿@model IEnumerable<IdeaManageApp.Models.Idea>
-
+﻿@*@model IEnumerable<IdeaManageApp.Models.Idea>*@
+@using PagedList.Mvc;
+@model PagedList.IPagedList<IdeaManageApp.Models.Idea>
 
 @{
     ViewBag.Title = "Index";
@@ -84,4 +85,17 @@
     <!-- /.container-fluid -->
     <!-- End of Main Content -->
 }
+
+<br />
+
+<div class="pagination">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page }))
+</div>
+
+
+
+
 

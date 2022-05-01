@@ -2,48 +2,100 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutManagement.cshtml";
 }
 
-<h2>Index</h2>
+<h2 style="text-align:center">Index</h2>
 
-<p>
-    @Html.ActionLink("Comment", "Create")
-    
+@if (ViewBag.Role == "Admin")
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Comment</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Content</th>
+                            <th>Create Date</th>
+                            <th>User</th>
+                            <th>Title</th>
+                            <th>Option</th>
+                        </tr>
+                    </thead>
 
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><div>@item.Comment_Id</div></td>
+                                <td><div>@item.Content</div></td>
+                                <td><div>@item.Created_date</div></td>
+                                <td><div>Annonymous</div></td>
+                                <td><div>@item.Idea.Idea_Title</div></td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", new { id = item.User_Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.User_Id })
+                                </td>
+                            </tr>
+                        }
 
-
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Idea.Idea_Title)
-        </th>        
-        <th>
-            @Html.DisplayNameFor(model => model.Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created_date)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idea.Idea_Title)
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created_date)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Comment_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Comment_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Comment_Id })
-        </td>
-    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
 
-</table>
+@if (ViewBag.Role == "Staff" || ViewBag.Role == "QA Manager" || ViewBag.Role == "QA Coordinator")
+{
+    <p>
+        @Html.ActionLink("Add Comment", "Create", new { Id = @ViewBag.idea_Id })
+    </p>   
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables User</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Content</th>
+                            <th>Create Date</th>
+                            <th>User</th>
+                            <th>Title</th>                            
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><div>@item.Comment_Id</div></td>
+                                <td><div>@item.Content</div></td>
+                                <td><div>@item.Created_date</div></td>
+                                <td><div>Annonymous</div></td>
+                                <td><div>@item.Idea.Idea_Title</div></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+                <p>
+                    <button type="button" onclick="location.href='@Url.Action("IdeaDetails","Submissions", new {id = @ViewBag.idea_Id})'">Back</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

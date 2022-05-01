@@ -22,8 +22,7 @@
     <link href="~/Content/Style/css/style.min.css" rel="stylesheet" />
 </head>
 
-<body>
-    @RenderBody()
+<body>    
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -51,7 +50,7 @@
                         <!-- Logo icon -->
                         <b class="logo-icon" sizes="16x16">
                             <!-- Dark Logo icon -->
-                            <img src="~/Content/Style/plugins/images/logo-icon.png" alt="homepage" />
+                            <img src="~/Content/Style/plugins/images/logo-icon.png" alt="Homepage">
                         </b>
                         <!--End Logo icon -->                        
                     </a>
@@ -145,6 +144,13 @@
                                 <span class="hide-menu">Download Files</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/Comments/Index"
+                               aria-expanded="false">
+                                <i class="" aria-hidden="true"></i>
+                                <span class="hide-menu">Comment</span>
+                            </a>
+                        </li>
                     </ul>
 
                 </nav>
@@ -153,10 +159,11 @@
             <!-- End Sidebar scroll-->
         </aside>
         
-        <div class="page-wrapper">            
+        <div class="page-wrapper">
+            @RenderBody()
             <footer class="footer text-center">
                 2021 © IGreApp
-            </footer>            
+            </footer>
         </div>        
     </div>
     

@@ -17,6 +17,7 @@ namespace IdeaManageApp.Controllers
         // GET: Reactions
         public ActionResult Index()
         {
+            ViewData["Role"] = Session["Role"];
             var reactions = db.Reactions.Include(r => r.Idea).Include(r => r.User);
             return View(reactions.ToList());
         }

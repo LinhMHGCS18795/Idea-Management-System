@@ -71,7 +71,7 @@
     {
         @Html.ActionLink("Like", "Reaction", Model)
     }
-    <button type="button" onclick="location.href='@Url.Action("Index","Comments", new {id = Model.Idea_Id})'">Comment</button>
+    <button type="button" onclick="location.href='@Url.Action("Index","Comments", Model)'">Comment</button>
 </p>
 
 
